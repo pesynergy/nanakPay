@@ -1,0 +1,7 @@
+[2025-03-20 17:51:14] local.INFO: API Response: {"statuscode":"TXN","message":"Transaction Successfull","apitxnid":"NPSELF2503200551132","txnid":"IddtujYoJHsAYzLeEcl7oEJwTEcD5LUKluD","bankutr":"QT-1186560001381"} 
+[2025-03-20 17:53:09] local.INFO: PO Webhook Received {"response":"NPSELF2503200551132"} 
+[2025-03-20 17:53:11] local.INFO: Webhook callback sent successfully {"response":{"response":"","error":"","code":200}} 
+[2025-03-20 17:53:11] local.ERROR: Error sending UniqPay webhook callback {"error":{"response":"","error":"","code":200}} 
+[2025-03-20 17:53:11] local.INFO: PO Webhook Received {"response":"NPSELF2503200551132"} 
+[2025-03-20 17:53:12] local.INFO: Webhook callback sent successfully {"response":{"response":"","error":"","code":200}} 
+[2025-03-20 17:53:12] local.ERROR: Error sending UniqPay webhook callback {"error":{"response":"","error":"","code":200}} 

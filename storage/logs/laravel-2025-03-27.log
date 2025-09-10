@@ -1,0 +1,14 @@
+[2025-03-27 10:57:30] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:04:16] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:04:50] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:08:41] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:09:55] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:11:38] production.INFO: Provider {"provider":{"App\\Model\\Provider":{"id":8,"name":"Collection 1-300","recharge1":"payin1","recharge2":"payin1","api_id":5,"type":"collection","status":"1","paramname":[""],"mode":null,"range1":"0","range2":"300"}}} 
+[2025-03-27 11:12:29] production.INFO: Provider {"provider":8} 
+[2025-03-27 11:36:57] production.INFO: Provider {"provider":8} 
+[2025-03-27 11:36:57] production.INFO: serviceApi {"serviceApi":null} 
+[2025-03-27 11:36:57] production.INFO: Api {"Api":{"App\\Model\\Api":{"id":5,"product":"HP IN","name":"HP IN","url":"login.honestpay.in","username":"null","password":"null","optional1":"null","optional2":null,"optional3":null,"code":"hp-in","type":"collection","status":"1","tds":0.0,"gst":18.0,"created_at":"2025-03-19T06:25:21.000000Z","updated_at":"2025-03-19T06:25:44.000000Z"}}} 
+[2025-03-27 11:36:57] production.INFO: Internal API Response received {"response":"{\"error\":\"Failed to create order or invalid response from QtPay\"}"} 
+[2025-03-27 11:36:57] production.INFO: Internal Decoded API Response {"decodedResponse":{"stdClass":{"error":"Failed to create order or invalid response from QtPay"}}} 
+[2025-03-27 12:11:11] production.INFO: Internal API Response received {"response":"{\"error\":\"Failed to create order or invalid response from QtPay\"}"} 
+[2025-03-27 12:11:11] production.INFO: Internal Decoded API Response {"decodedResponse":{"stdClass":{"error":"Failed to create order or invalid response from QtPay"}}} 
