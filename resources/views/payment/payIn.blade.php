@@ -34,6 +34,8 @@
     </label>
 
     <button class="btn" type="submit">Create Payment</button>
+   <button type="button" onclick="history.back()" class="btn">Back</button>
+
   </form>
 
   <div id="result" class="card" style="display:none;">
@@ -79,7 +81,7 @@
         const txnid = data.details?.txnid;
         if (!intent || !txnid) {
           alert('Invalid response from PayIn. Check console.');
-          console.log(data);
+        
           return;
         }
 
