@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <h1>PayIn</h1>
+  <h1>PayIn-Merchant</h1>
 
   <form id="payForm">
     <label>Customer name
