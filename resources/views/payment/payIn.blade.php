@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <h1>PayIn — Test Payment</h1>
+  <h1>PayIn</h1>
 
   <form id="payForm">
     <label>Customer name
