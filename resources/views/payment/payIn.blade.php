@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PayIn - Test Payment</title>
+  <title>PayIn</title>
   <style>
     body{ font-family: system-ui, Arial; max-width:720px; margin:24px auto; padding:12px; }
     label{ display:block; margin-top:10px; }
