@@ -18,7 +18,7 @@
 
   <form id="payForm">
     <label>Customer name
-      <input type="text" name="customer_name" value="Test User" required>
+      <input type="text" name="customer_name"  required>
     </label>
 
     <label>Amount (INR)
@@ -26,7 +26,7 @@
     </label>
 
     <label>Mobile
-      <input type="text" name="mobile" value="9555778271">
+      <input type="text" name="mobile">
     </label>
 
     <label>Email
