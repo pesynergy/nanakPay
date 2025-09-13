@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="datatable" class="display">
+                            <table id="datatable" class="table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -46,10 +46,10 @@
 </div>
 
 <div id="setupModal" class="modal fade" data-backdrop="false" data-keyboard="false">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h6 class="modal-title"><span class="msg">Add</span> Scheme</h6>
             </div>
             <form id="setupManager" action="{{route('resourceupdate')}}" method="post">
@@ -65,20 +65,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                   <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                 </div>
             </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog  modal-lg -->
-</div><!-- /.modal -->
+        </div> 
+    </div> 
+</div> 
 
 @foreach($charge as $key => $value)
     <div id="{{$key}}Modal" class="modal fade" role="dialog" data-backdrop="false">
-        <div class="modal-dialog  modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-slate">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title">{{$key}} Charge</h4>
                 </div>
                 <form class="commissionForm" method="post" action="{{ route('resourceupdate') }}">
@@ -119,27 +119,27 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div><!-- /.modal -->
+    </div> 
 @endforeach
 
 <div id="commissionModal" class="modal fade" role="dialog" data-backdrop="false">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
                 <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Scheme <span class="schemename"></span> Commission/Charge</h4>
             </div>
 
             <div class="modal-body no-padding commissioData">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

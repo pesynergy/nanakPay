@@ -45,7 +45,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h6 class="modal-title"><span class="msg">Add</span> Operator</h6>
             </div>
             <form id="setupManager" action="{{route('setupupdate')}}" method="post">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button class="btn bg-slate btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                 </div>
             </form>

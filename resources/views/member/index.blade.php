@@ -49,7 +49,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="datatable">
+                            <table id="datatable" class="table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Partner Code</th>
@@ -75,10 +75,10 @@
 </div>
 
 <div id="transferModal" class="modal fade" data-backdrop="false" data-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Fund Transfer / Return</h6>
             </div>
             <form id="transferForm" action="{{route('fundtransaction')}}" method="post">
@@ -133,7 +133,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                   <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                 </div>
             </form>
@@ -190,7 +190,7 @@
     	                </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                     </div>
                 </form>
@@ -200,10 +200,10 @@
 @endif
 
 <div id="commissionModal" class="modal fade right" role="dialog" data-backdrop="false">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
                 <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Scheme Manager</h4>
             </div>
             <form id="schemeForm" method="post" action="{{ route('profileUpdate') }}">
@@ -230,7 +230,7 @@
                         <div class="form-group col-md-4">
                             <label style="width:100%">&nbsp;</label>
                             <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
-                            <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                           
                         </div>
                     </div>
                 </div>
@@ -239,7 +239,7 @@
             <div class="modal-body no-padding commissioData">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -276,7 +276,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                     </div>
                 </form>
@@ -287,10 +287,10 @@
 
 @if (Myhelper::can('member_kyc_update'))
     <div id="kycUpdateModal" class="modal fade" data-backdrop="false" data-keyboard="false">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-slate">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h6 class="modal-title">Kyc Manager</h6>
                 </div>
                 <form id="kycUpdateForm" action="{{route('profileUpdate')}}" method="post">
@@ -319,7 +319,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                     </div>
                 </form>
@@ -330,10 +330,10 @@
 
 @if (Myhelper::can('locked_amount'))
     <div id="lockedAmountModal" class="modal fade" role="dialog" data-backdrop="false">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                     <div class="modal-header bg-slate">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title">Locked Amount</h4>
                 </div>
                 <form id="lockedAmountForm" method="post" action="{{ route('profileUpdate') }}">
@@ -359,7 +359,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                     </div>
                 </form>

@@ -80,7 +80,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="datatable" class="display">
+                            <table id="datatable" class="table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -103,10 +103,10 @@
 </div>
 
 <div id="setupModal" class="modal fade" data-backdrop="false" data-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-slate">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h6 class="modal-title"><span class="msg">Add</span> Operator</h6>
             </div>
             <form id="setupManager" action="{{route('setupupdate')}}" method="post">
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-raised legitRipple" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-info btn-raised legitRipple" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Submitting">Submit</button>
                 </div>
             </form>
