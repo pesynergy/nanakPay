@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\User;
-use App\Model\Circle;
+use Myhelper;
 use App\Model\Role;
+use App\Model\Circle;
 use App\Model\Pindata;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -114,7 +117,7 @@ class UserController extends Controller
     private function verifyOTP($user, $request)
     {
         // Match OTP
-        if (\Auth::attempt([
+        if (Auth::attempt([
             'mobile' => $user->mobile,
             'password' => $request->password,
             'otpverify' => $request->otp,
@@ -272,7 +275,7 @@ class UserController extends Controller
             if ($user) {
                 $update = \App\User::where('mobile', $post->mobile)->update(['password' => bcrypt($post->password)]);
                 if ($update) {
-                    \DB::table('password_resets')->where('mobile', $post->mobile)->where('token', $post->token)->delete();
+                    DB::table('password_resets')->where('mobile', $post->mobile)->where('token', $post->token)->delete();
                     return response()->json(['status' => "TXN", 'message' => "Password reset successfully"], 200);
                 } else {
                     return response()->json(['status' => 'ERR', 'message' => "Something went wrong"], 400);
@@ -364,46 +367,58 @@ class UserController extends Controller
     //     }
     // }
 
-    public function getotp(Request $post)
+    public function getotp(Request $request)
     {
-        $rules = array(
-            'mobile'  => 'required|numeric',
-        );
+        $rules = [
+            'mobile' => 'required|numeric',
+        ];
 
-        $validate = \Myhelper::FormValidator($rules, $post);
-        if ($validate != "no") {
+        $validate = \Myhelper::FormValidator($rules, $request);
+        if ($validate !== "no") {
             return $validate;
         }
 
-        $user = \App\User::where('mobile', $post->mobile)->first();
-        if ($user) {
-            $otp = rand(111111, 999999);
-            $mydata['otp']    = $otp;
-            $mydata['mobile'] = $post->mobile;
-            $mydata['name']   = $user->name;
-            $mydata['email']  = $user->email;
-            $send = \Myhelper::notification("tpin", $mydata);
+        $user = User::where('mobile', $request->mobile)->first();
 
-            if ($send == "success") {
-                $user = \DB::table('password_resets')->insert([
-                    'mobile' => $post->mobile,
-                    'token' => \Myhelper::encrypt($otp, "sakshi##254d65d6"),
-                    'last_activity' => time()
-                ]);
-
-                return response()->json(['status' => 'TXN', 'message' => "Pin generate token sent successfully"], 200);
-            } else {
-                return response()->json(['status' => 'ERR', 'message' => "Something went wrong"], 400);
-            }
-        } else {
+        if (!$user) {
             return response()->json(['status' => 'ERR', 'message' => "You aren't registered with us"], 400);
         }
+
+        $otp = rand(111111, 999999);
+        $mydata = [
+            'otp'    => $otp,
+            'mobile' => $request->mobile,
+            'name'   => $user->name,
+            'email'  => $user->email,
+        ];
+
+        $send = \Myhelper::notification("tpin", $mydata);
+
+        if (strtolower($send) !== "success") {
+            Log::error("OTP Notification failed", ['response' => $send, 'mobile' => $request->mobile]);
+            return response()->json(['status' => 'ERR', 'message' => "Something went wrong while sending OTP"], 400);
+        }
+
+        // Store OTP
+        DB::table('password_resets')->updateOrInsert(
+            ['mobile' => $request->mobile],
+            [
+                'token'         => \Myhelper::encrypt($otp, "sakshi##254d65d6"),
+                'last_activity' => time(),
+            ]
+        );
+
+        return response()->json(['status' => 'TXN', 'message' => "OTP sent successfully"], 200);
     }
 
-    public function setpin(Request $post)
+    /**
+     * Verify OTP and set PIN
+     */
+    public function setpin(Request $request)
     {
-        $rules = array(
-            'id'  => 'required|numeric',
+        $rules = [
+            'id'  => 'required|numeric|exists:users,id',
+            'mobile' => 'required|numeric',
             'otp' => 'required|numeric',
             'pin' => [
                 'required',
@@ -411,34 +426,45 @@ class UserController extends Controller
                 'digits:6',
                 'confirmed',
                 Rule::notIn(['123456']),
-            ]
-        );
+            ],
+        ];
 
-        $validate = \Myhelper::FormValidator($rules, $post);
-        if ($validate != "no") {
+        $validate = \Myhelper::FormValidator($rules, $request);
+        if ($validate !== "no") {
             return $validate;
         }
 
-        $user = \DB::table('password_resets')->where('mobile', $post->mobile)->where('token', \Myhelper::encrypt($post->otp, "sakshi##254d65d6"))->first();
-        if ($user) {
-            try {
-                Pindata::where('user_id', $post->id)->delete();
-                $apptoken = Pindata::create([
-                    'pin' => \Myhelper::encrypt($post->pin, "sakshi##254d65d6"),
-                    'user_id'  => $post->id
-                ]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 'ERR', 'message' => 'Try Again']);
-            }
+        $encryptedOtp = \Myhelper::encrypt($request->otp, "sakshi##254d65d6");
 
-            if ($apptoken) {
-                \DB::table('password_resets')->where('mobile', $post->mobile)->where('token', \Myhelper::encrypt($post->otp, "sakshi##254d65d6"))->delete();
-                return response()->json(['status' => "success"], 200);
-            } else {
-                return response()->json(['status' => "Something went wrong"], 400);
-            }
-        } else {
-            return response()->json(['status' => "Please enter valid otp"], 400);
+        $otpRecord = DB::table('password_resets')
+            ->where('mobile', $request->mobile)
+            ->where('token', $encryptedOtp)
+            ->first();
+
+        if (!$otpRecord) {
+            return response()->json(['status' => "ERR", 'message' => "Please enter a valid OTP"], 400);
+        }
+
+        try {
+            // Remove old pins
+            Pindata::where('user_id', $request->id)->delete();
+
+            // Save new PIN
+            $apptoken = Pindata::create([
+                'pin' => \Myhelper::encrypt($request->pin, "sakshi##254d65d6"),
+                'user_id' => $request->id,
+            ]);
+
+            // Clear OTP record
+            DB::table('password_resets')
+                ->where('mobile', $request->mobile)
+                ->where('token', $encryptedOtp)
+                ->delete();
+
+            return response()->json(['status' => "success", 'message' => 'PIN set successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error("Set PIN failed", ['error' => $e->getMessage(), 'user_id' => $request->id]);
+            return response()->json(['status' => 'ERR', 'message' => 'Something went wrong, try again'], 400);
         }
     }
 

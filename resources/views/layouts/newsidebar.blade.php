@@ -185,6 +185,15 @@
         				@endif
     				</ul>
     			</li>
+					<li>
+    				<a class="has-arrow ai-icon" href="javascript:void(0);" aria-expanded="false">
+    					<i class="fa-regular fa-user fw-bold"></i>
+    					<span class="nav-text">Api-Specification</span>
+    				</a>
+    				<ul aria-expanded="false">
+    				  <a href="{{ route('apiSpecification') }}">ApiSpecification</a>
+    				</ul>
+    			</li>
 			@endif
 		</ul>
 	</div>

@@ -1,140 +1,131 @@
 @extends('layouts.app')
+
 @section('title', ucwords($user->name) . " Profile")
 @section('bodyClass', "has-detached-left")
 @section('pagetitle', ucwords($user->name) . " Profile")
 
-
-@php
-    $search = "hide";
-@endphp
-
 @section('content')
-<div class="content">
-    <div class="sidebar-detached">
-        <div class="sidebar sidebar-default sidebar-separate">
-            <div class="sidebar-content">
-                <div class="content-group">
-                    <div class="panel-body bg-primary border-radius-top text-center" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); background-size: contain;">
-                        <div class="content-group-sm">
-                            <h6 class="text-semibold no-margin-bottom">
-                                {{ucfirst($user->name)}}
-                            </h6>
-                            <span class="display-block">{{$user->role->name}}</span>
-                        </div>
-
-                        <span class="display-block">Partner Code : {{$user->agentcode}}</span>
-                    </div>
-
-                    <div class="panel no-border-top no-border-radius-top">
-                        <ul class="navigation">
-                            <li class="navigation-header">Navigation</li>
-                            <li class="active"><a href="#profile" data-toggle="tab" class="legitRipple" aria-expanded="false"><i class="icon-chevron-right"></i> Profile Details</a></li>
-                            <li class=""><a href="#kycdata" data-toggle="tab" class="legitRipple" aria-expanded="false"><i class="icon-chevron-right"></i> Kyc Details</a></li>
-                            @if ((Auth::id() == $user->id && Myhelper::can('password_reset')) || Myhelper::can('member_password_reset'))
-                            <li class=""><a href="#settings" data-toggle="tab" class="legitRipple" aria-expanded="false"><i class="icon-chevron-right"></i> Password Manager</a></li>
-                            @endif
-                            {{-- <li class=""><a href="#pinChange" data-toggle="tab" class="legitRipple" aria-expanded="false"><i class="icon-chevron-right"></i> Pin Manager</a></li> --}}
-                            @if (\Myhelper::hasRole('admin'))
-                                <li><a href="#rolemanager" data-toggle="tab" class="legitRipple" aria-expanded="true"><i class="icon-chevron-right"></i> Role Manager</a></li>
-                                <li><a href="#mapping" data-toggle="tab" class="legitRipple" aria-expanded="true"><i class="icon-chevron-right"></i> Mapping Manager</a></li>
-                            @endif
-                            <li><a href="{{route('logout')}}" class="legitRipple"><i class="icon-switch2"></i> Log out</a></li>
-                        </ul>
-                    </div>
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body text-center bg-primary text-white rounded-top" 
+                     style="background-image: url('http://demo.interface.club/limitless/assets/images/bg.png'); background-size: cover;">
+                    <h5 class="fw-bold mb-1">{{ ucfirst($user->name) }}</h5>
+                    <span class="d-block">{{ $user->role->name }}</span>
+                    <span class="d-block">Partner Code : {{ $user->agentcode }}</span>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action active" data-bs-toggle="tab" href="#profile">Profile Details</a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="tab" href="#kycdata">KYC Details</a>
+                    @if ((Auth::id() == $user->id && Myhelper::can('password_reset')) || Myhelper::can('member_password_reset'))
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="tab" href="#settings">Password Manager</a>
+                    @endif
+                    @if (\Myhelper::hasRole('admin'))
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="tab" href="#rolemanager">Role Manager</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="tab" href="#mapping">Mapping Manager</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="tab" href="#bankdata">Bank Details</a>
+                    @endif
+                    <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-danger">Logout</a>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="container-detached">
-        <div class="content-detached">
+
+        <!-- Main Content -->
+        <div class="col-md-9">
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="profile">
-                    <form id="profileForm" action="{{route('profileUpdate')}}" method="post" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id" value="{{$user->id}}">
+
+                <!-- Profile Tab -->
+                <div class="tab-pane fade show active" id="profile">
+                    <form id="profileForm" action="{{ route('profileUpdate') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $user->id }}">
                         <input type="hidden" name="actiontype" value="profile">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">Personal Information</h5>
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0">Personal Information</h5>
                             </div>
-                            <div class="panel-body p-b-0">
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Name</label>
-                                        <input type="text" name="name" class="form-control" value="{{$user->name}}" required="" placeholder="Enter Value">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" name="name" class="form-control" value="{{ $user->name }}" required>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label>Mobile</label>
-                                        <input type="number" {{ Myhelper::hasNotRole('admin') ? 'disabled=""' :'name=mobile'}} required="" value="{{$user->mobile}}" class="form-control" placeholder="Enter Value">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Mobile</label>
+                                        <input type="number" {{ Myhelper::hasNotRole('admin') ? 'disabled' : 'name=mobile' }}
+                                            class="form-control" value="{{ $user->mobile }}" required>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label>Email</label>
-                                        <input type="text" name="email" class="form-control" value="{{$user->email}}" required="" placeholder="Enter Value">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" value="{{ $user->email }}" required>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>State</label>
-                                        <input type="text" name="state" class="form-control" value="" required="" placeholder="Enter Value">
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">State</label>
+                                        <input type="text" name="state" class="form-control" value="{{ $user->state }}" required>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label>City</label>
-                                        <input type="text" name="city" class="form-control" value="{{$user->city}}" required="" placeholder="Enter Value">
+                                    <div class="col-md-4">
+                                        <label class="form-label">City</label>
+                                        <input type="text" name="city" class="form-control" value="{{ $user->city }}" required>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label>District</label>
-                                        <input type="text" name="district" class="form-control" value="{{$user->district}}" required="" placeholder="Enter Value">
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label>Address</label>
-                                        <textarea name="address" class="form-control" rows="3" required="" placeholder="Enter Value">{{$user->address}}</textarea>
+                                    <div class="col-md-4">
+                                        <label class="form-label">District</label>
+                                        <input type="text" name="district" class="form-control" value="{{ $user->district }}" required>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label>Pincode</label>
-                                        <input type="number" name="pincode" class="form-control" value="{{$user->pincode}}" required="" maxlength="6" minlength="6" placeholder="Enter Value">
+                                <div class="row g-3 mt-2">
+                                    <div class="col-12">
+                                        <label class="form-label">Address</label>
+                                        <textarea name="address" rows="3" class="form-control" required>{{ $user->address }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Pincode</label>
+                                        <input type="number" name="pincode" class="form-control" value="{{ $user->pincode }}" required>
                                     </div>
 
                                     @if(Myhelper::hasRole('admin'))
-                                        <div class="form-group col-md-4">
-                                            <label>Company</label>
-                                            <select name="company_id" class="form-control select" required="">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Company</label>
+                                            <select name="company_id" class="form-select" required>
                                                 <option value="">Select Company</option>
-                                                @foreach ($company as $company)
-                                                    <option value="{{$company->id}}">{{$company->companyname}}</option>
+                                                @foreach ($company as $c)
+                                                    <option value="{{ $c->id }}" {{ $c->id == $user->company_id ? 'selected' : '' }}>
+                                                        {{ $c->companyname }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label>Security Pin</label>
-                                            <input type="password" name="mpin" autocomplete="off" class="form-control" required="">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Security Pin</label>
+                                            <input type="password" name="mpin" class="form-control" required>
                                         </div>
                                     @endif
                                 </div>
                             </div>
 
                             @if ((Auth::id() == $user->id && Myhelper::can('profile_edit')) || Myhelper::can('member_profile_edit'))
-                                <div class="panel-footer">
-                                    <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Updating...">Update Profile</button>
+                                <div class="card-footer text-end">
+                                    <button class="btn btn-primary" type="submit">Update Profile</button>
                                 </div>
                             @endif
                         </div>
                     </form>
                 </div>
-
-                <div class="tab-pane fade" id="kycdata">
+    <div class="tab-pane fade" id="kycdata">
                     <form id="kycForm" action="{{route('profileUpdate')}}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{$user->id}}">
@@ -180,7 +171,7 @@
                             </div>
                             @if ((Auth::id() == $user->id && Myhelper::can('profile_edit')) || Myhelper::can('member_profile_edit'))
                                 <div class="panel-footer">
-                                    <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Updating...">Update Profile</button>
+                                    <button   class="btn btn-primary" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Updating...">Update Kyc</button>
                                 </div>
                             @endif
                         </div>
@@ -214,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Resetting...">Password Reset</button>
+                                <button class="" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Resetting...">Password Reset</button>
                             </div>
                         </div>
                     </form>
@@ -270,7 +261,7 @@
                                 @endif
                             </div>
                             <div class="panel-footer">
-                                <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Resetting...">Password Reset</button>
+                                <button  class="btn btn-primary" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Resetting...">Password Reset</button>
                             </div>
                         </div>
                     </form>
@@ -314,7 +305,7 @@
                                     @endif
                                 </div>
                                 <div class="panel-footer">
-                                    <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
+                                    <button   class="btn btn-primary" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
                                 </div>
                             </div>
                         </form>
@@ -351,7 +342,7 @@
                                     @endif
                                 </div>
                                 <div class="panel-footer">
-                                    <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
+                                    <button  class="btn btn-primary" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
                                 </div>
                             </div>
                         </form>
@@ -387,18 +378,18 @@
                                     @endif
                                 </div>
                                 <div class="panel-footer">
-                                    <button class="btn bg-slate btn-raised legitRipple pull-right" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
+                                    <button   class="btn btn-primary" type="submit" data-loading-text="<i class='fa fa-spin fa-spinner'></i> Changing...">Change</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 @endif
+            
             </div>
         </div>
     </div>
 </div>
 @endsection
-
 @push('script')
 
 <script type="text/javascript">

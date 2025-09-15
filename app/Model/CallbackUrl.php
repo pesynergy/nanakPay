@@ -5,14 +5,13 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApiToken extends Model
+class CallbackUrl extends Model
 {
     use HasFactory;
-    protected $table = 'api_tokens';
+    protected $table = 'callback_urls';
 
     protected $fillable = [
-        'ip',
-        'token',
-        'status',
+        'payin_callback',
+        'payout_callback',
     ];
 }

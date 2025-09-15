@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayinController;
 use App\Http\Controllers\PayinWebhookController;
-
+use App\Http\Controllers\ApiSpecificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,9 +135,15 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('commission', 'HomeController@checkcommission');
-});
 
-Route::post('/payin/intent', [PayinController::class, 'createIntent']);
-Route::get('/payin/status/{txnid}', [PayinController::class, 'status']);
-Route::post('/webhook/payin', [PayinWebhookController::class, 'handle']);
-Route::get('/pay', [PayinController::class, 'showForm'])->name('pay.form');
+    Route::post('/payin/intent', [PayinController::class, 'createIntent']);
+    Route::get('/payin/status/{txnid}', [PayinController::class, 'status']);
+    Route::post('/webhook/payin', [PayinWebhookController::class, 'handle']);
+    Route::get('/pay', [PayinController::class, 'showForm'])->name('pay.form');
+});
+Route::prefix('api-specifications')->group(function () {
+    Route::get('apiSpecification', [ApiSpecificationController::class, 'index'])->name('apiSpecification');
+    Route::post('/token', [ApiSpecificationController::class, 'storeToken'])->name('api.token.store');
+    Route::post('/callback', [ApiSpecificationController::class, 'updateCallback'])->name('api.callback.update');
+    Route::get('/token/{id}/toggle', [ApiSpecificationController::class, 'toggleTokenStatus'])->name('api.token.toggle');
+});
