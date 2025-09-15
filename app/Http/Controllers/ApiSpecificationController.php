@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\ApiToken;
-use App\Model\CallbackUrl;
+use App\ApiToken;
+use App\CallbackUrl;
 use Illuminate\Http\Request;
 
 class ApiSpecificationController extends Controller

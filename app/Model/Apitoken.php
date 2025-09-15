@@ -2,17 +2,20 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApiToken extends Model
+class Apitoken extends Model
 {
-    use HasFactory;
-    protected $table = 'api_tokens';
 
-    protected $fillable = [
-        'ip',
-        'token',
-        'status',
-    ];
+    protected $fillable = ['token', 'ip', 'user_id', 'status', 'upicallbackurl', 'payoutcallbackurl'];
+    public $appends     = ['username'];
+    public function getUsernameAttribute()
+    {
+        $data = '';
+        if ($this->user_id) {
+            $user = \App\User::where('id', $this->user_id)->first(['name', 'id', 'role_id']);
+            $data = $user->name . " (" . $user->id . ")";
+        }
+        return $data;
+    }
 }
