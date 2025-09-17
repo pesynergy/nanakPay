@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PayinTransaction extends Model
 {
     use HasFactory;
+    protected $table = "payin_transactions";
     protected $fillable = [
         'txnid',
         'payin_ref',

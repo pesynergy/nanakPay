@@ -192,7 +192,7 @@
     				</a>
     				<ul aria-expanded="false">
     				  <li><a href="{{ route('apiSpecification') }}">ApiSpecification</a></li>
-					  <li><a href="https://documenter.getpostman.com/view/44508955/2sB3HqHydh" target="_blank">API Handbook</a></li>
+					  <li><a href="https://documenter.getpostman.com/view/44508955/2sB3HqJeHu" target="_blank">API Handbook</a></li>
     				</ul>
     			</li>
 			@endif

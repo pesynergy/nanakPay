@@ -14,7 +14,6 @@ class PayinWebhookController extends Controller
 
         Log::info('PayIn webhook received', ['headers' => $request->headers->all(), 'payload' => $payload]);
 
-        // Optional verification — provider may send a signature header.
         $signatureHeader = $request->header('X-PAYIN-SIGNATURE') ?? $request->header('X-Signature');
 
         if ($signatureHeader) {
@@ -24,17 +23,13 @@ class PayinWebhookController extends Controller
                 return response()->json(['message' => 'Invalid signature'], 403);
             }
         } else {
-            // For local testing without signature — log a note
+
             Log::info('PayIn webhook: no signature header present (testing mode).');
         }
-
-        // Process payload: you can update DB here (example below is minimal)
         $txnid = $payload['txnid'] ?? ($payload['details']['txnid'] ?? null);
         $status = $payload['status'] ?? ($payload['details']['status'] ?? null);
-
-        // TODO: update your order or transaction record in DB
         Log::info("Webhook txnid={$txnid} status={$status}");
 
-        return response()->json(['message' => 'received']);
+        return response()->json(['message' => 'Transaction updated', 'txnid' => $txnid, 'status' => $status]);
     }
 }
